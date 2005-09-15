@@ -18,7 +18,7 @@
   A whole regional frequency analysis is performed. That is a
   heterogeneity test for the selected region - see function
   \code{\link{heterogeneity}}, L-moments plots - see function
-  \code{\link{lmomplot}}, and estimation of the regional and at-site
+  \code{\link{lmomplots}}, and estimation of the regional and at-site
   distribution with eventually return level plots - see function
   \code{\link{regdist}, \link{locdist}}.
 }

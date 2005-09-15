@@ -1,9 +1,9 @@
 \name{L-moments}
-\alias{lmomplot}
+\alias{lmomplots}
 \title{Generate several L-moments plots}
 \description{Produces several plot given the first 3 sample L-moments
   ratio.}
-\usage{lmomplot(lmom.reg, which = 1:3, ask = nb.fig < length(which) &&
+\usage{lmomplots(lmom.reg, which = 1:3, ask = nb.fig < length(which) &&
 dev.interactive(), pch = 15, draw.dist = TRUE)}
 \arguments{
   \item{lmom.reg}{A list. Typically, it is the result of function

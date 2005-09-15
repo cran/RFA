@@ -1,39 +1,3 @@
-#Méthode des L-moments
-#On a d'abord besoin d'une fonction qui calcule les L-moments
-samlmu <- function (x, nmom = 4, sort.data = T)
-{
-    xok <- x[!is.na(x)]
-    n <- length(xok)
-    if (nmom <= 0) return(numeric(0))
-    if (nmom <= 2) rnames <- paste("l", 1:nmom, sep = "_")
-    else rnames <- c("l_1", "t", paste("t", 3:nmom, sep = "_"))
-    lmom <- rep(NA, nmom)
-    names(lmom) <- rnames
-    if (n == 0) return(lmom)
-    if (sort.data == T) xok <- sort(xok)
-    nmom.actual <- min(nmom, n)
-    lmom[1] <- mean(xok)
-    if (nmom.actual == 1) return(lmom)
-    temp <- seq(1-n, n-1, by = 2)
-    p1 <- rep(1, n)
-    p <- temp/(n-1)
-    lmom[2] <- mean(xok * p)
-    if (nmom.actual == 2) return(lmom)
-    if (xok[1] == xok[n]) {
-        warning("all data values equal")
-        return(lmom)
-    }
-    for (j in 3:nmom.actual) {
-        p2 <- p1
-        p1 <- p
-        p <- ((2*j-3)*temp*p1 - (j-2)*(n+j-2)*p2) / ((j-1)*(n-j+1))
-        lmom[j] <- mean(xok * p)/lmom[2]
-    }
-
-    lmom[2] <- lmom[2] / lmom[1]
-    
-    return(lmom)
-}
 
 #A function to calculate heterogeneity statistics of Hosking
 heterogeneity <- function(N.sim,N.site,size,param,Vsite){
@@ -62,7 +26,7 @@ heterogeneity <- function(N.sim,N.site,size,param,Vsite){
     for (j in 1:N.site){
       data <- rkappa(size[j],loc,scale,shape1,shape2)
       temp <- samlmu(data)
-      tau <- c(tau,temp[2])
+      tau <- c(tau, temp[2] / temp[1])
       tau3 <- c(tau3,temp[3])
       tau4 <- c(tau4,temp[4])
     }
@@ -124,8 +88,12 @@ lmomreg <- function(sample.sites,index.flood=mean){
   V2 <- 0
   V3 <- 0
   for (i in 1:n){
-    V1 <- V1 + size[i]*(lmoments.sites[i,2] - lmoments.regional[2])^2
-    V2 <- V2 + size[i] * sqrt((lmoments.sites[i,2] - lmoments.regional[2])^2 + (lmoments.sites[i,3] - lmoments.regional[3])^2 )
+    V1 <- V1 + size[i]*(lmoments.sites[i,2] / lmoments.sites[i,1] -
+                        lmoments.regional[2] / lmoments.regional[1])^2
+    V2 <- V2 + size[i] * sqrt((lmoments.sites[i,2] / lmoments.sites[i,1] -
+                               lmoments.regional[2] /
+                               lmoments.regional[1])^2 +
+                              (lmoments.sites[i,3] - lmoments.regional[3])^2 )
     V3 <- V3 + size[i] * sqrt((lmoments.sites[i,3] - lmoments.regional[3])^2 + (lmoments.sites[i,4] - lmoments.regional[4])^2 )
   }
 
@@ -151,11 +119,11 @@ regdist <- function(lmom, loc, main, xlab,
   
   if (missing(loc)){
     shape <- -(1 - 3*lmom.reg[3]) / (1 + lmom.reg[3])
-    scale <- (1-shape) * (2-shape) * lmom.reg[2] * lmom.reg[1]
-    loc <- lmom.reg[1] - (2-shape) * lmom.reg[2] * lmom.reg[1]
+    scale <- (1-shape) * (2-shape) * lmom.reg[2] 
+    loc <- lmom.reg[1] - (2-shape) * lmom.reg[2]
   }
   else{
-    shape <- - (lmom.reg[1] - loc) / ( lmom.reg[2] * lmom.reg[1] ) + 2
+    shape <- - (lmom.reg[1] - loc) / lmom.reg[2] + 2
     scale <- (1 - shape)*(lmom.reg[1] - loc)
   }
   
@@ -179,12 +147,11 @@ regdist <- function(lmom, loc, main, xlab,
     for (i in 1:n.site){
       if (missing(loc)){
         shape <- -(1 - 3*lmom.site[i,3]) / (1 + lmom.site[i,3])
-        scale <- (1-shape) * (2-shape) * lmom.site[i,2] * lmom.site[i,1]
-        loc <- lmom.site[i,1] - (2-shape) * lmom.site[i,2] * lmom.site[i,1]
+        scale <- (1-shape) * (2-shape) * lmom.site[i,2]
+        loc <- lmom.site[i,1] - (2-shape) * lmom.site[i,2]
       }
       else{
-        shape <- - (lmom.site[i,1] - loc) / ( lmom.site[i,2] *
-                                             lmom.site[i,1] ) + 2
+        shape <- - (lmom.site[i,1] - loc) / lmom.site[i,2] + 2
         scale <- (1 - shape)*(lmom.site[i,1] - loc)
       }
       
@@ -227,9 +194,9 @@ locdist <- function(param.reg, mu, data, main,
   if (draw.data){
     p.emp <- ppoints(data)
     T.emp <- 1 / (mu * (1 - p.emp))
+    points(sort(T.emp), sort(data) )
+
   }
-  
-  points(sort(T.emp), sort(data) )
   
   param <- c( c(loc, scale) * index.flood(data), shape)
   names(param) <- c('loc','scale','shape')

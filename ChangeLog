@@ -1,0 +1,9 @@
+Version 0_0.4:
+  - Rewrite 'samlmu' and 'rkappa' functions into a C code
+  - tcl/tk Interface for function 'reganalysis' is more suitable
+  
+Version 0_0.2:
+  - Add fitting functions for the GPD
+  - Change the name of function lmomplot to lmomplots
+    for compatibility problem with the POT package
+  - Add an 'identify' option in the L-Skewness / L-CV plot

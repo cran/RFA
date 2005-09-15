@@ -1,4 +1,4 @@
-lmomplot <- function(lmom.reg, which = 1:3,
+lmomplots <- function(lmom.reg, which = 1:3,
                       ask = nb.fig < length(which)
                       && dev.interactive(), pch = 15, draw.dist = TRUE){
   ##lmom.reg : a list composed with the first 4 L-moments

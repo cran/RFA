@@ -1,25 +1,11 @@
-#A function whi generate a random sample of a four parameter kappa distribution
-rkappa <- function(n,loc,scale,shape1,shape2){
-  p <- runif(n)
-  
-  if (scale <=0){
-    stop('Invalid scale !')
-  }
-  if (shape2 == -1){
-    #This is the special case of the generalised logistic distribution
-    return(loc  -  scale / shape1 * (1 -(1/runif(n) - 1)^(-shape1)) )
-  }
-  if (shape2 == 0 ){
-    #This is the special case of the GEV
-    return(rgev(n,loc,scale,shape1))
-  }
-  if (shape2 == 1){
-    #This is the special case of the GPD
-    return(rgpd(n,loc,scale,shape1))
-  }
+##A function whi generate a random sample of a four parameter
+##kappa distribution
 
-  #And so, this is the four parameter Kappa distribution
-  return(loc - scale / shape1 * ( 1 - ( (1 -p ^shape2) / shape2 ) ^ (-shape1) ))
+rkappa <- function(n,loc,scale,shape1,shape2){
+  .C("rkappa", as.integer(n), as.double(loc),
+     as.double(scale), as.double(shape1),
+     as.double(shape2), sim = double(n),
+     PACKAGE ="RFA")$sim
 }
 
 rgpd <- function(n, loc = 0, scale = 1, shape = 0){
@@ -42,7 +28,8 @@ rgev <- function(n, loc = 0, scale = 1, shape = 0){
     else return(loc + scale * (rexp(n)^(-shape) - 1)/shape)
 }
 
-#A function who fit the four parameter kappa distribution with L-moments
+## A function who fit the four parameter kappa distribution with L-moments
+## Becarefull, it is sample l_1, l_2, tau_3 et tau_4 not tau
 kappalmom <- function(lmom){
 
   param <- .Fortran("pelkap",lmom,rep(0,5), PACKAGE = "RFA")[[2]]
