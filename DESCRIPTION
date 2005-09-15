@@ -1,5 +1,5 @@
 Package: RFA
-Version: 0.0-4
+Version: 0.0-6
 Date: 2005-15-09
 Title: Regional Frequency Analysis
 Author: Mathieu Ribatet <ribatet@lyon.cemagref.fr>
@@ -7,5 +7,5 @@ Maintainer: Mathieu Ribatet <ribatet@lyon.cemagref.fr>
 Depends: R (>= 1.8.0), tcltk
 Description: Several function to perform a Regional Frequency Analysis
 License: GPL version 2 or newer
-URL: http://www.lyon.cemagref.fr/doc/these/these-en-cours/ribatet/index.shtml
-Packaged: Wed Nov 23 16:11:09 2005; ribatet
+URL: http://www.lyon.cemagref.fr/hh/hydrologie/scientifiques/ribatet/hydrology-english.shtml
+Packaged: Wed Mar 29 10:51:28 2006; ribatema

@@ -73,5 +73,16 @@
     Frequency Analysis}. Cambridge University Press.
 }
 \author{Ribatet Mathieu}
+\examples{
+data(northCascades)
+lmom <- c(1, 0.1103, 0.0279, 0.1366)
+kappaParam <- kappalmom(lmom)
+heterogeneity(500, 19, size = northCascades[,1],
+kappaParam, c(0.0104, .0339, .0405))
+##The heterogeneity statistics given by Hosking for this case
+##study are H1 = 0.62, H2 = -1.49 and H3 = -2.37
+##Taking into account sample variability, results should be
+##consistent
+}
 \keyword{htest}
   

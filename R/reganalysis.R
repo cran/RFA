@@ -79,16 +79,16 @@ reganalysis <- function(data){
          ylab = expression(paste('L-CV,  ',tau,sep='')))
     points(lmom[select.sites,3], lmom[select.sites,2], pch = 16)
 
-    if ( tclvalue(identify.flag) == "TRUE")
+    if ( as.logical(tclObj(identify.flag)) )
       identify(lmom[,3], lmom[,2], labels = name.site)
     tkgrab.release(tt)
   }
 
   view.button <- tkbutton(frm2, text = 'View L-moments plot',
                           command = viewLmom)
-  identify.flag <- tclVar("FALSE")
-  identify.button <- tkradiobutton(frm2, text = 'Identify points',
-                                   variable = identify.flag, value = "TRUE")
+  identify.flag <- tclVar(0)
+  identify.button <- tkcheckbutton(frm2, text = 'Identify points',
+                                   variable = identify.flag)
     
   
   tkpack(chkbut1, anchor = "w")
@@ -108,7 +108,7 @@ reganalysis <- function(data){
                               " with probability of non exceedance ",
                               tclvalue(prob), sep="")
   
-  switch(index.flood,'mean' = index.flood <- mean,
+  switch(index.flood, 'mean' = index.flood <- mean,
          'median' = index.flood <- median,
          'quantile' = index.flood <- function(sample){
               prob <- as.numeric(tclvalue(prob))
@@ -135,7 +135,7 @@ reganalysis <- function(data){
   }
 
   data <- c(data, list(record) )
-  names(data) <- c(select.sites,'record')
+  names(data) <- c(select.sites, 'record')
   n.site <- length(data) - 1
   name.site <- names(data)[-(n.site+1)]
   
@@ -166,16 +166,14 @@ reganalysis <- function(data){
   frm2 <- tkframe(spec.frm, relief = 'groove', borderwidth = 2)
   tkpack(tklabel(frm2, text = 'Select Options'))
 
-  heter.flag <- lmomplot.flag <- "FALSE"
-  
-  heter.flag <- tclVar("FALSE")
-  lmomplot.flag <- tclVar("FALSE")
-  chkbut1 <- tkradiobutton(frm2)
+  heter.flag <- tclVar(0)
+  lmomplot.flag <- tclVar(0)
+  chkbut1 <- tkcheckbutton(frm2)
   tkconfigure(chkbut1, text = 'Compute the heterogeneity statistic',
-              variable = heter.flag, value = "TRUE")
-  chkbut2 <- tkradiobutton(frm2)
+              variable = heter.flag)
+  chkbut2 <- tkcheckbutton(frm2)
   tkconfigure(chkbut2, text = 'Draw L-moments plot',
-              variable = lmomplot.flag, value = "TRUE")
+              variable = lmomplot.flag)
 
   onOK <- function() {
     res <- 1 + as.integer(tkcurselection(listbox))
@@ -193,12 +191,12 @@ reganalysis <- function(data){
   tkpack(spec.frm, ok.button)
   tkwait.window(tt)
 
-  if (tclvalue(heter.flag) == "TRUE" ){
+  if ( as.logical(tclObj(heter.flag)) ){
     cat('Please wait while computing the heterogeneity statistic...\n')
     ##Evaluate the heterogeneity statistic
     heterogeneity(500, n.site, size, kappa, reg.car$V)
   }
-  if (tclvalue(lmomplot.flag) == "TRUE") lmomplots(reg.car)
+  if ( as.logical(tclObj(lmomplot.flag)) ) lmomplots(reg.car)
  
   n.aimsite <- which( names(data) == aim.site )
   mu <- size[n.aimsite] / data$record[n.aimsite]

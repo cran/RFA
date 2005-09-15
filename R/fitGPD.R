@@ -123,11 +123,12 @@ gpdpwmb <- function(data,threshold,a=0.35,b=0){
   colnames(corr) <- c('scale','shape')
   rownames(corr) <- c('scale','shape')
       
-  if ( shape > 0.5 ) message <- paste(message,"\n Assymptotic theory assumptions
-for standard error may not be fullfilled !", sep='')
+  if ( shape > 0.5 ) message <- "Assymptotic theory assumptions for
+standard error may not be fullfilled !"
+  else message <- NULL
   
   return(list(estimate = estim, std.err = std.err, var.cov = var.cov,
-              param = param, message = type, threshold = threshold,
+              param = param, message = message, threshold = threshold,
               corr = corr, convergence = convergence, counts = counts,
               nhigh = nat, nat = nat, pat = pat,
               exceedances = exceed, scale=scale))

@@ -21,4 +21,8 @@
     Frequency Analysis}. Cambridge University Press.
 }
 \author{Ribatet Mathieu}
+\examples{
+data(maxWind)
+\dontrun{lmomreg(sample.site = maxWind)}
+}
 \keyword{htest}

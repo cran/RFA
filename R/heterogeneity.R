@@ -36,8 +36,10 @@ heterogeneity <- function(N.sim,N.site,size,param,Vsite){
     tau4R.sim <- sum(size*tau4)/sum(size)
 
     V1 <- c(V1,sqrt(sum(size*(tau-tauR.sim)^2)/sum(size)))
-    V2 <- c(V2,sum(size*sqrt( (tau-tauR.sim)^2 + (tau3-tau3R.sim)^2 ) ) / sum(size) )
-    V3 <- c(V3,sum(size*sqrt( (tau3 - tau3R.sim)^2 + (tau4 - tau4R.sim)^2 ) ) / sum(size) )
+    V2 <- c(V2,sum(size*sqrt( (tau-tauR.sim)^2 + (tau3-tau3R.sim)^2 ) ) /
+            sum(size) )
+    V3 <- c(V3,sum(size*sqrt( (tau3 - tau3R.sim)^2 + (tau4 - tau4R.sim)^2 ) ) /
+            sum(size) )
     
 
   }
@@ -57,12 +59,12 @@ heterogeneity <- function(N.sim,N.site,size,param,Vsite){
   cat('La valeur de la statistique H2 est :\n',H2,'\n')
   cat('La valeur de la statistique H3 est :\n',H3,'\n')
 
-  invisible(list(mean1=m1,std1=v1,tau=tau,V1=V1,H1=H1))
+  invisible(list(H1 = H1, H2 = H2, H3 = H3))
 }
 
 #A function who calculate the first four sample L-moments of the
 #region and the weigthed std of the at-site sample L-CV cf Hosking
-lmomreg <- function(sample.sites,index.flood=mean){
+lmomreg <- function(sample.sites, index.flood=mean){
   ##sample.sites : a list giving data from each site
   ##index.flood   : a function who evaluate the index flood from the sample
 
@@ -74,8 +76,9 @@ lmomreg <- function(sample.sites,index.flood=mean){
   lmoments.regional <- rep(0,4)
   
   for (i in 1:n){
-    temp <- samlmu(sample.sites[[i]] / index.flood(sample.sites[[i]]) )
-    lmoments.sites <- rbind(lmoments.sites,temp)
+    temp <- samlmu(sample.sites[[i]])
+    temp[1:2] <- temp[1:2] / index.flood(sample.sites[[i]])
+    lmoments.sites <- rbind(lmoments.sites, temp)
     size <- c(size,length(sample.sites[[i]]))
     lmoments.regional <- lmoments.regional + size[i] * lmoments.sites[i,]
     
@@ -94,7 +97,8 @@ lmomreg <- function(sample.sites,index.flood=mean){
                                lmoments.regional[2] /
                                lmoments.regional[1])^2 +
                               (lmoments.sites[i,3] - lmoments.regional[3])^2 )
-    V3 <- V3 + size[i] * sqrt((lmoments.sites[i,3] - lmoments.regional[3])^2 + (lmoments.sites[i,4] - lmoments.regional[4])^2 )
+    V3 <- V3 + size[i] * sqrt((lmoments.sites[i,3] - lmoments.regional[3])^2 +
+                              (lmoments.sites[i,4] - lmoments.regional[4])^2 )
   }
 
   V1 <- sqrt(V1/sum(size))
@@ -103,8 +107,9 @@ lmomreg <- function(sample.sites,index.flood=mean){
   names(V1) <- 'V1'
   names(V2) <- 'V2'
   names(V3) <- 'V3'
+  rownames(lmoments.sites) <- names(sample.sites)
 
-  return(list(site=lmoments.sites,reg=lmoments.regional,V=c(V1,V2,V3)))
+  return(list(site=lmoments.sites, reg=lmoments.regional,V=c(V1,V2,V3)))
 }
 
 regdist <- function(lmom, loc, main, xlab,

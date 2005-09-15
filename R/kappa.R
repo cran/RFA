@@ -29,7 +29,7 @@ rgev <- function(n, loc = 0, scale = 1, shape = 0){
 }
 
 ## A function who fit the four parameter kappa distribution with L-moments
-## Becarefull, it is sample l_1, l_2, tau_3 et tau_4 not tau
+## Becarefull, it is sample l_1, tau, tau_3 et tau_4 not l_2
 kappalmom <- function(lmom){
 
   param <- .Fortran("pelkap",lmom,rep(0,5), PACKAGE = "RFA")[[2]]

@@ -73,8 +73,4 @@ kappalmom(lmom)
   251-258
 }
 \author{Ribatet Mathieu and Hosking J. R. M. for the fortran code.}
-\examples{
-lmom <- c(1, 0.1103, 0.0279, 0.1366)
-kappalmom(lmom)
-}
 \keyword{distribution}

@@ -1,3 +1,7 @@
+Version 0_0.6:
+  - Fix a bug message in function gpdpwmb
+  - Change interface in function ``reganalysis''
+
 Version 0_0.4:
   - Rewrite 'samlmu' and 'rkappa' functions into a C code
   - tcl/tk Interface for function 'reganalysis' is more suitable
