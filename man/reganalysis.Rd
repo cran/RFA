@@ -30,4 +30,3 @@ data(region)
 \references{Dalrymple, T. (1960) \emph{Flood Frequency Analysis}. Water
   Supply.}
 \keyword{htest}
-    

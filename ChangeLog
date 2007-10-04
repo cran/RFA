@@ -1,3 +1,6 @@
+Version 0_0.7:
+  - Fix a gap in a data (for compatibility with R 2.5)
+
 Version 0_0.6:
   - Fix a bug message in function gpdpwmb
   - Change interface in function ``reganalysis''

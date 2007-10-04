@@ -85,4 +85,3 @@ kappaParam, c(0.0104, .0339, .0405))
 ##consistent
 }
 \keyword{htest}
-  

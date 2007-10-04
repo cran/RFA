@@ -53,4 +53,3 @@
     Analysis}. Cambridge University Press.
 }
 \keyword{htest}
-  
