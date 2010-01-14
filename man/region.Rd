@@ -1,4 +1,4 @@
-\name{Data set}
+\name{region}
 \alias{region}
 \title{Data set to perform a Regional Frequency Analysis}
 \usage{data(region)}

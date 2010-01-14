@@ -1,4 +1,4 @@
-\name{L-moments}
+\name{lmomreg}
 \alias{lmomreg}
 \title{L-moments and statistics within a region.}
 \description{Compute sample L-moments of each site within a region once

@@ -1,4 +1,4 @@
-\name{Regional Frequency Analysis}
+\name{regdist}
 \alias{regdist}
 \alias{locdist}
 \title{Regional and at-site distribution}
@@ -6,8 +6,8 @@
   Index Flood model. This is achieved with the regional L-moments.}
 \usage{regdist(lmom, loc, main, xlab, ylab, xliminf, xlimsup, draw.site =
   TRUE, \dots)
-  locdist(param.reg, mu, data, main, xlab, ylab, xlimsup, draw.data = TRUE,
-  \dots)
+  locdist(param.reg, mu, data, main, xlab, ylab, xlimsup, index.flood =
+mean, draw.data = TRUE, \dots)
 }
 \arguments{
   \item{lmom}{A list. Typically, return of function

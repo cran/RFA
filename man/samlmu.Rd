@@ -1,4 +1,4 @@
-\name{L-moments}
+\name{samlmu}
 \alias{samlmu}
 \title{Compute sample L-moments}
 \description{Compute the sample L-moments - unbiased version.}

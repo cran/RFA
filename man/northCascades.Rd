@@ -1,4 +1,4 @@
-\name{Data set}
+\name{northCascades}
 \alias{northCascades}
 \title{Data set to perform a Regional Frequency Analysis}
 \usage{data(northCascades)}

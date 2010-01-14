@@ -1,4 +1,4 @@
-\name{Data set}
+\name{maxWind}
 \alias{maxWind}
 \title{Data set to perform a Regional Frequency Analysis}
 \usage{data(maxWind)}

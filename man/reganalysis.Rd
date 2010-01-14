@@ -1,4 +1,4 @@
-\name{Regional Frequency Analysis}
+\name{reganalysis}
 \alias{reganalysis}
 \title{Perform a whole Regional Frequency Analysis}
 \description{Perform a whole Regional Frequency Analysis via the Index

@@ -1,4 +1,4 @@
-\name{L-moments}
+\name{lmomplots}
 \alias{lmomplots}
 \title{Generate several L-moments plots}
 \description{Produces several plot given the first 3 sample L-moments
